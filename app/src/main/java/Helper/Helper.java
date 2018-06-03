@@ -23,10 +23,15 @@ public class Helper {
         try {
             URL mUrl = new URL( urlString );
             HttpURLConnection mHttpURLConnection = (HttpURLConnection)mUrl.openConnection();
+
+            //  200 -> OK
             if( mHttpURLConnection.getResponseCode() == 200 ){
+                //  Let's read
                 BufferedReader r = new BufferedReader( new InputStreamReader( mHttpURLConnection.getInputStream() ));
                 StringBuilder sb = new StringBuilder();
                 String line;
+
+                //  Reading Response
                 while( ( line = r.readLine() ) != null ){
                     sb.append( line );
                 }
