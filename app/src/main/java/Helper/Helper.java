@@ -19,7 +19,7 @@ public class Helper {
     }
 
     //  Makes a request to API and get return result
-    public static String getHTTTPData( String urlString ){
+    public String getHTTTPData( String urlString ){
         try {
             URL mUrl = new URL( urlString );
             HttpURLConnection mHttpURLConnection = (HttpURLConnection)mUrl.openConnection();
