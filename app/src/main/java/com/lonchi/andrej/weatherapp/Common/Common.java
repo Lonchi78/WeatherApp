@@ -17,7 +17,7 @@ public class Common {
     public static String API_KEY = "a8444bdb6a3d66c63173043e098776cf";
     public static String API_LINK = "http://api.openweathermap.org/data/2.5/weather";
 
-    //  Method send an API Request by coordinations of location
+    //  Makes a functional link to the API path
     @NonNull
     public static String apiRequest(String lat, String lng ){
         StringBuilder sb = new StringBuilder( API_LINK );
