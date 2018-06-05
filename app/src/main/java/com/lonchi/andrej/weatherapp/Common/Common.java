@@ -16,12 +16,18 @@ public class Common {
     //  Unicate variables of my account on API site
     public static String API_KEY = "a8444bdb6a3d66c63173043e098776cf";
     public static String API_LINK = "http://api.openweathermap.org/data/2.5/weather";
+    public static String API_TEMP_C = "&units=metric";
+    public static String API_TEMP_F = "&units=imperial";
+    public static String API_TEMP_K = "";
 
     //  Makes a functional link to the API path
     @NonNull
     public static String apiRequest(String lat, String lng ){
         StringBuilder sb = new StringBuilder( API_LINK );
-        sb.append(String.format( "?lat=%s&lon=%s&appid=%s", lat, lng, API_KEY ));
+        //  TODO
+        //  Get User Preference fot Temperature
+        //  Kelvin is default -> any addictional
+        sb.append(String.format( "?lat=%s&lon=%s&appid=%s%s", lat, lng, API_KEY, API_TEMP_C ));
         return sb.toString();
     }
 
