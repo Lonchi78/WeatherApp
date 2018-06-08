@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+
+    <string name="example_temp">18 °C</string>
+    <string name="example_type">Cloudy</string>
+    <string name="example_city">Prague</string>
+    <string name="example_date">June 17th 2018</string>
+    <string name="example_day2">Tuesday</string>
+    <string name="example_day3">Wednesday</string>
+    <string name="example_day4">Thursday</string>
+    <string name="example_day5">Friday</string>
+    <string name="example_day2_temp">21 °C</string>
+    <string name="example_day3_temp">23 °C</string>
+    <string name="example_day4_temp">16 °C</string>
+    <string name="example_day5_temp">14 °C</string>
 </resources>

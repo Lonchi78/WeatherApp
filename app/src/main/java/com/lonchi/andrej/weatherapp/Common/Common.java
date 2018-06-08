@@ -14,11 +14,19 @@ import java.util.Date;
 
 public class Common {
     //  Unicate variables of my account on API site
-    public static String API_KEY = "a8444bdb6a3d66c63173043e098776cf";
-    public static String API_LINK = "http://api.openweathermap.org/data/2.5/weather";
-    public static String API_TEMP_C = "&units=metric";
-    public static String API_TEMP_F = "&units=imperial";
-    public static String API_TEMP_K = "";
+    //  Number of day of forecast
+    private static String CNT = "5";
+
+    //  Links for API
+    private static String API_KEY = "a8444bdb6a3d66c63173043e098776cf";
+    private static String API_LINK = "http://api.openweathermap.org/data/2.5/weather";
+    private static String API_LINK_FORECAST = "http://api.openweathermap.org/data/2.5/forecast";
+
+    //  Variables for Units
+    private static String API_TEMP_C = "metric";
+    private static String API_TEMP_F = "imperial";
+    private static String API_TEMP_K = "";
+
 
     //  Makes a functional link to the API path
     @NonNull
@@ -27,7 +35,18 @@ public class Common {
         //  TODO
         //  Get User Preference fot Temperature
         //  Kelvin is default -> any addictional
-        sb.append(String.format( "?lat=%s&lon=%s&appid=%s%s", lat, lng, API_KEY, API_TEMP_C ));
+        sb.append(String.format( "?lat=%s&lon=%s&appid=%s&units=%s", lat, lng, API_KEY, API_TEMP_C ));
+        return sb.toString();
+    }
+
+    //  Makes a functional link to the API path (5 day forecast)
+    @NonNull
+    public static String apiRequestForecast(String lat, String lng ){
+        StringBuilder sb = new StringBuilder( API_LINK_FORECAST );
+        //  TODO
+        //  Get User Preference fot Temperature
+        //  Kelvin is default -> any addictional
+        sb.append(String.format( "?lat=%s&lon=%s&appid=%s", lat, lng, API_KEY ));
         return sb.toString();
     }
 

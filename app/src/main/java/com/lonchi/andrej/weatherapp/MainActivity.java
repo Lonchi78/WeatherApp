@@ -33,6 +33,7 @@ import java.lang.reflect.Type;
 
 import Helper.Helper;
 import Model.OpenWeatherMap;
+import ModelForecast.OpenWeatherMapForecast;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     String iconName;
     static double lat, lng;
     OpenWeatherMap openWeatherMap = new OpenWeatherMap();
+    OpenWeatherMapForecast openWeatherMapForecast = new OpenWeatherMapForecast();
 
     int MY_PERMISSION;
 
@@ -116,8 +118,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Toast.makeText(this, "LAT: " + lat + " ,LNG: " + lng, Toast.LENGTH_SHORT).show();
         tvCity.setText(Double.toString(lat) + "\n" + Double.toString(lng));
 
-
-        new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+        new GetWeather().execute(Common.apiRequestForecast(String.valueOf(lat), String.valueOf(lng)));
+        //new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
         Toast.makeText(this, "Icon: " + iconName, Toast.LENGTH_LONG).show();
     }
 
@@ -180,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mLocationRequest, this);
     }
 
+
+
     @SuppressLint("StaticFieldLeak")
     private class GetWeather extends AsyncTask<String,Void,String>{
         ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
@@ -205,15 +209,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+
             if(s.contains("Error: Not found city!")){
                 progressDialog.dismiss();
                 return;
             }
             Gson gson = new Gson();
-            Type mType = new TypeToken<OpenWeatherMap>(){}.getType();
-            openWeatherMap = gson.fromJson(s, mType);
+            //Type mType = new TypeToken<OpenWeatherMap>(){}.getType();
+            //openWeatherMap = gson.fromJson(s, mType);
+            Type mType = new TypeToken<OpenWeatherMapForecast>(){}.getType();
+            openWeatherMapForecast = gson.fromJson(s, mType);
             progressDialog.dismiss();
 
+            Log.e("City", openWeatherMapForecast.getCity().getName());
+            Log.e("Country", openWeatherMapForecast.getCity().getCountry());
+            Log.e("Time 0", Common.unixTimeStampToDateTime(openWeatherMapForecast.getList().get(0).getDt()) );
+            Log.e("Temp 0", String.valueOf(openWeatherMapForecast.getList().get(0).getMain().getTemp()));
+            Log.e("Desc 0", openWeatherMapForecast.getList().get(0).getWeather().get(0).getDescription() );
+            Log.e("Humdity 0", String.valueOf(openWeatherMapForecast.getList().get(0).getMain().getHumidity()));
+            Log.e("Time 18", Common.unixTimeStampToDateTime(openWeatherMapForecast.getList().get(18).getDt()) );
+            Log.e("Temp 18", String.valueOf(openWeatherMapForecast.getList().get(18).getMain().getTemp()));
+            Log.e("Desc 18", openWeatherMapForecast.getList().get(18).getWeather().get(0).getDescription() );
+            Log.e("Humdity 18", String.valueOf(openWeatherMapForecast.getList().get(18).getMain().getHumidity()));
+
+            /*
             //  Set UI elements
             tvCity.setText( String.format( "%s, %s", openWeatherMap.getName(), openWeatherMap.getSys().getCountry() ) );
             tvLastUpdate.setText( String.format( "Last Updated: %s", Common.getDateNow() ) );
@@ -223,16 +243,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             tvTemp.setText( String.format( "Temp: %.2f °C", openWeatherMap.getMain().getTemp() ) );
             tvTempMin.setText( String.format( "Temp Min: %.2f °C", openWeatherMap.getMain().getTemp_min() ) );
             tvTempMax.setText( String.format( "Temp Max: %.2f °C", openWeatherMap.getMain().getTemp_max() ) );
-            /*Picasso.with(MainActivity.this)
+            Picasso.with(MainActivity.this)
                     .load(Common.getImage(openWeatherMap.getWeather().get(0).getIcon()))
                     .into(ivIcon);
-            */
+
             iconName = openWeatherMap.getWeather().get(0).getIcon();
             if( !iconName.equals("02d") ){
                 ivIcon.setImageResource(R.drawable.ic_cloud);
             }else {
                 ivIcon.setImageResource(R.drawable.ic_sunny);
             }
+            */
         }
     }
 }
